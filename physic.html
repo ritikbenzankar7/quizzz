@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics</title>
+    <link rel="stylesheet" href="physic.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="container">
+            <a href="quiz.html" class="brand-logo"><i class="material-icons">school</i> QUIZ</a>
+        </div>
+    </nav>
+
+    <h1> Physics Quiz</h1>
+    <div id="results">
+
+    </div>
+    <div class="quiz-container">
+
+        <div id="quiz">
+
+        </div><br><br>
+
+        <div class="btns">
+
+            <button id="previous">Previous Question</button>
+            <button id="next">Next Question</button>
+            <button id="submit">Submit Quiz</button>
+        </div>
+    </div>
+    
+  <script>
+  (function () {
+    const Questions = [
+      {
+        question: "1: Which one of the following is an electric conductor?",
+        answers: {
+          a: "A plastic shee",
+          b: "Distilled water",
+          c: "Human body"
+        },
+        correctAnswer: "c"
+  
+      },
+      {
+        question: "2: The buoyancy depends on",
+        answers: {
+          a: "The shape of the body",
+          b: "The mass of the body",
+          c: "The mass of the liquid displaced"
+        },
+        correctAnswer: "c"
+      },
+      {
+        question: "3: Water boils at 212 degrees on which temperature scale?",
+        answers: {
+          a: "Kelvin",
+          b: "Fahrenheit",
+          c: "Celsius",
+  
+        },
+        correctAnswer: "b"
+      },
+      {
+        question: "4: Pencil “lead” is made up of?",
+        answers: {
+          a: "oxide",
+          b: "Lead",
+          c: "Graphite",
+  
+        },
+        correctAnswer: "c"
+      },
+      {
+        question: "5: The Halley’s Comet will be visible again in the year?",
+        answers: {
+          a: "2062 A.D.",
+          b: "2068 A.D.",
+          c: "2064 A.D.",
+  
+        },
+        correctAnswer: "a"
+      },
+      {
+        question: "6: Which two metals is pewter made from?",
+        answers: {
+          a: "Copper and Bronze",
+          b: "Tin and lead.",
+          c: "Zinc and gold",
+  
+        },
+        correctAnswer: "b"
+      },
+      {
+        question: "7: Convex lenses are used for the correction of?",
+        answers: {
+          a: "Long-Sightedness",
+          b: "Short-Sightedness",
+          c: "None of these",
+  
+        },
+        correctAnswer: "a"
+      },
+      {
+        question: "8: Optical fibre works on the",
+        answers: {
+          a: "Principle of refraction",
+          b: "Total internal reflection",
+          c: "Interference",
+  
+        },
+        correctAnswer: "b"
+      },
+      {
+        question: "9: Red light is used in traffic signals because",
+        answers: {
+          a: "It has the longest wavelength",
+          b: "It is visible to people even with bad eyesight",
+          c: "It is beautiful",
+  
+        },
+        correctAnswer: "a"
+      },
+      {
+        question: "10: Light from the Sun reaches us in nearly",
+        answers: {
+          a: "6mins",
+          b: "8mins",
+          c: "4mins",
+  
+        },
+        correctAnswer: "b"
+      },
+  
+    ];
+  
+    function buildQuiz() {
+      // we'll need a place to store the HTML output
+      const output = [];
+  
+      // for each question...
+      Questions.forEach((currentQuestion, questionNumber) => {
+        // we'll want to store the list of answer choices
+        const answers = [];
+  
+        // and for each available answer...
+        for (letter in currentQuestion.answers) {
+          // ...add an HTML radio button
+          answers.push(
+            `<div class="options"><label>
+                 <input type="radio" name="question${questionNumber}" value="${letter}">
+                  ${letter} :
+                  ${currentQuestion.answers[letter]}
+               </label> </div>`
+          );
+        }
+  
+        // add this question and its answers to the output
+        output.push(
+          `<div class="slide">
+               <div class="question"> ${currentQuestion.question} </div>
+               <div class="answers"> ${answers.join("")} </div>
+             </div>`
+        );
+      });
+  
+      // finally combine our output list into one string of HTML and put it on the page
+      quizContainer.innerHTML = output.join("");
+    }
+  
+    function showResults() {
+      // gather answer containers from our quiz
+      const answerContainers = quizContainer.querySelectorAll(".answers");
+  
+      // keep track of user's answers
+      let numCorrect = 0;
+  
+      // for each question...
+      Questions.forEach((currentQuestion, questionNumber) => {
+        // find selected answer
+        const answerContainer = answerContainers[questionNumber];
+        const selector = `input[name=question${questionNumber}]:checked`;
+        const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+  
+        // if answer is correct
+        if (userAnswer === currentQuestion.correctAnswer) {
+          // add to the number of correct answers
+          numCorrect++;
+  
+          // color the answers green
+          answerContainers[questionNumber].style.color = "lightgreen";
+        } else {  
+          // if answer is wrong or blank
+          // color the answers red
+          answerContainers[questionNumber].style.color = "red";
+        }
+      });
+  
+      // show number of correct answers out of total
+      resultsContainer.innerHTML = `<div class="result_board"><h3> You Scored <br> <br> ${numCorrect} out of ${Questions.length} </h3>
+      <button class="btn_score"><a href="physics.html">Play Again</button>
+      <button class="btn_score_quit"><a href="quiz.html" >Quit</button><div>
+      `;
+  
+    }
+  
+    function showSlide(n) {
+      slides[currentSlide].classList.remove("active-slide");
+      slides[n].classList.add("active-slide");
+      currentSlide = n;
+  
+      if (currentSlide === 0) {
+        previousButton.style.display = "none";
+      } else {
+        previousButton.style.display = "inline-block";
+      }
+  
+      if (currentSlide === slides.length - 1) {
+        nextButton.style.display = "none";
+        submitButton.style.display = "inline-block";
+      } else {
+        nextButton.style.display = "inline-block";
+        submitButton.style.display = "none";
+      }
+    }
+  
+    function showNextSlide() {
+      showSlide(currentSlide + 1);
+    }
+  
+    function showPreviousSlide() {
+      showSlide(currentSlide - 1);
+    }
+  
+    const quizContainer = document.getElementById("quiz");
+    const resultsContainer = document.getElementById("results");
+    const submitButton = document.getElementById("submit");
+  
+    // display quiz right away
+    buildQuiz();
+  
+    const previousButton = document.getElementById("previous");
+    const nextButton = document.getElementById("next");
+    const slides = document.querySelectorAll(".slide");
+    let currentSlide = 0;
+  
+    showSlide(0);
+  
+    // on submit, show results
+    submitButton.addEventListener("click", showResults);
+    previousButton.addEventListener("click", showPreviousSlide);
+    nextButton.addEventListener("click", showNextSlide);
+  })();
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  </script>
+</body>
+
+</html>

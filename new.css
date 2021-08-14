@@ -1,0 +1,21 @@
+body{
+    background-image: url(c.jpg);
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+}
+
+
+.container{
+    display: flex;
+    justify-items: left;
+  color: rgb(255, 255, 255);
+  font-size: 35px;
+  margin: 10px 0px 0px 200px;
+  }
+  
+  .brand-logo{
+    color: rgb(130, 197, 236);
+    text-decoration: none;
+  
+  }
