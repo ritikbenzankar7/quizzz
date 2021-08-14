@@ -159,3 +159,15 @@
     text-align: center;
     margin-top: 15px;
   }
+
+  .border{
+    border: 2px solid rgb(229, 255, 0);
+    height: 500px;
+    width: 500px;
+    display: block;
+    justify-content: center;
+    margin: 0px 400px;
+    border-radius: 10px;
+    top:100px;
+    border-color: transparent;
+  }
